@@ -1,11 +1,14 @@
 .app {
-  padding-top: 50px;
-  padding-bottom: 50px;
 
   .app-form-wrapper {
+    background-color: #424242;
+    padding: 50px;
+    border-radius: 5px;
     width: 900px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 50px auto;
+    -webkit-box-shadow: 6px 6px 16px 3px rgba(0,0,0,0.75);
+    -moz-box-shadow: 6px 6px 16px 3px rgba(0,0,0,0.75);
+    box-shadow: 6px 6px 16px 3px rgba(0,0,0,0.75);
   }
 }
 

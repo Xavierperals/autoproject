@@ -6,8 +6,20 @@
     font-size: 20px;
   }
 
-  .input {
-    background-color: white;
+  .inputs {
+    padding-left: 15px;
   }
+
+  .input-wrapper {
+    width: 60%;
+    margin-right: auto;
+    margin-left: auto;
+
+    .input {
+      color: white;
+    }
+  }
+
+
 
 }
