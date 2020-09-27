@@ -21,6 +21,8 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -42,6 +44,7 @@
     ]
   },
   "devDependencies": {
-    "autobind-decorator": "^2.4.0"
+    "autobind-decorator": "^2.4.0",
+    "gh-pages": "^3.1.0"
   }
 }
