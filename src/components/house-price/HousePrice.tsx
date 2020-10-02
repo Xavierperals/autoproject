@@ -67,10 +67,15 @@ export class HousePrice extends React.Component<Props, State> {
 
   private handleOnInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
 
-    const valueWithoutSpaces = event.target.value.replace(' ', '');
-    const value = Number(valueWithoutSpaces);
+    let valueWithSpaces = event.target.value;
 
-    if (isNaN(value)) {
+    while (valueWithSpaces.includes(' ')) {
+      valueWithSpaces = valueWithSpaces.replace(' ', '');
+    }
+
+    const value = Number(valueWithSpaces);
+
+    if (isNaN(value) || value > 50000000) {
       return;
     }
 

@@ -26,11 +26,6 @@ export const AutocompleteInput = (props: Props) => (
             ...params.InputProps,
             type: 'search',
             className: 'input',
-            // startAdornment: (
-            //   <InputAdornment position="end" variant="filled">
-            //     <AccountCircle/>
-            //   </InputAdornment>
-            // ),
           }}
         />
       )}
