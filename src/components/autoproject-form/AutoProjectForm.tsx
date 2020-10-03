@@ -1,15 +1,17 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { Title } from '../title/Title';
 import { Description } from '../description/Description';
-import { createMuiTheme, TextField, Theme, ThemeProvider } from '@material-ui/core';
 import './AutoProjectForm.scss';
-import { AutocompleteInput } from '../autocomplete-input/AutocompleteInput';
 import { Option, SizeOptions } from '../size-options/SizeOptions';
 import { HousePrice } from '../house-price/HousePrice';
 import { ApiClient } from '../../api/ApiClient';
 import { Region } from '../../entities/Region';
 import autobind from 'autobind-decorator';
 import { City } from '../../entities/City';
+import { LocationQuestions } from './partials/LocationQuestions';
+import { Step } from './common/Step';
+import { CommentQuestion } from './partials/CommentQuestion';
+import { ContactQuestions } from './partials/ContactQuestions';
 
 interface Props {
 }
@@ -21,7 +23,9 @@ interface State {
   neighborhood?: string;
   selectedSizeOption?: Option;
   comment?: string;
-  commentError: boolean;
+  name?: string;
+  phone?: string;
+  email?: string;
 }
 
 @autobind
@@ -35,7 +39,6 @@ export class AutoProjectForm extends React.Component<Props, State> {
 
     this.state = {
       regions: [],
-      commentError: false,
     };
   }
 
@@ -47,160 +50,93 @@ export class AutoProjectForm extends React.Component<Props, State> {
 
   public render(): React.ReactNode {
     return (
-      <ThemeProvider theme={this.configureTheme()}>
+      <div>
         <Title/>
         <Description/>
-        {this.renderFirstStep()}
-        {this.renderSecondStep()}
-        {this.renderThirdStep()}
-        {this.renderFourthStep()}
-      </ThemeProvider>
-    );
-  }
-
-  private configureTheme(): Theme {
-    return createMuiTheme({
-      palette: {
-        type: 'dark',
-        primary: {
-          main: '#69f0ae',
-        },
-        secondary: {
-          main: '#69f0ae',
-        },
-      },
-    });
-  }
-
-  private renderFirstStep(): React.ReactNode {
-    return (
-      <div className="step">
-        <div className="title">Localización. Dinos, ¿Dónde te gustaría vivir?</div>
-        <div className="inputs">
-          <AutocompleteInput
-            label="Comarca"
-            options={this.state.regions.map(r => r.name)}
-            disabled={false}
-            onChange={this.handleOnRegionInputChange}
-          />
-          <AutocompleteInput
-            label="Población"
-            options={this.state.selectedRegion?.cities.map(c => c.name) || []}
-            disabled={!this.state.selectedRegion}
-            onChange={this.handleOnCityInputChange}
-          />
-          <div className="input-wrapper">
-            <TextField
-              label="Barrio / Zona"
-              variant="filled"
-              margin="normal"
-              fullWidth={true}
-              disabled={!this.state.selectedCity}
-              onChange={this.handleOnNeighborhoodInputChange}
-              InputProps={{
-                type: 'search',
-                className: 'input',
-              }}
-            />
-          </div>
-        </div>
+        {this.renderLocationQuestions()}
+        {this.renderSizeQuestions()}
+        {this.renderHousePriceQuestion()}
+        {this.renderCommentQuestion()}
+        {this.renderContactQuestions()}
       </div>
     );
   }
 
-  private handleOnRegionInputChange(event: ChangeEvent<{}>, value: string | null): void {
-    if (!!value) {
-      this.setState({
-        selectedRegion: this.state.regions.find(region => region.name === value),
-      });
-    }
-  }
-
-  private handleOnCityInputChange(event: ChangeEvent<{}>, value: string | null): void {
-    if (!!value) {
-      this.setState({
-        selectedCity: this.state.selectedRegion!.cities.find(city => city.name === value),
-      });
-    }
-  }
-
-  private handleOnNeighborhoodInputChange(event: ChangeEvent<HTMLInputElement>): void {
-    this.setState({
-      neighborhood: event.target.value,
-    });
-  }
-
-  private renderSecondStep(): React.ReactNode {
+  private renderLocationQuestions(): React.ReactNode {
     return (
-      <div className="step">
-        <div className="title">Tamaño. ¿Cómo de grande lo necesitas?</div>
-        <div className="inputs">
-          <SizeOptions onSelectOption={this.handleOnSizeOptionsSelectChange}/>
-        </div>
-      </div>
+      <LocationQuestions
+        regions={this.state.regions}
+        onRegionInputChange={this.handleOnRegionInputChange}
+        selectedRegion={this.state.selectedRegion}
+        onCityInputChange={this.handleOnCityInputChange}
+        selectedCity={this.state.selectedCity}
+        onNeighborhoodInputChange={this.handleOnNeighborhoodInputChange}
+      />
     );
   }
 
-  private handleOnSizeOptionsSelectChange(option: Option | undefined): void {
-    this.setState({
-      selectedSizeOption: option,
-    });
+  private handleOnRegionInputChange(selectedRegion: Region | undefined): void {
+    this.setState({ selectedRegion });
   }
 
-  private renderThirdStep(): React.ReactNode {
+  private handleOnCityInputChange(selectedCity: City | undefined): void {
+    this.setState({ selectedCity });
+  }
+
+  private handleOnNeighborhoodInputChange(neighborhood: string): void {
+    this.setState({ neighborhood });
+  }
+
+  private renderSizeQuestions(): React.ReactNode {
     return (
-      <div className="step">
-        <div className="title">
-          ¿Cuánto estas dispuesto a gastar? (Recuerda que necesitarás disponer de un 25% inicial...)
-        </div>
-        <div className="inputs">
-          <HousePrice/>
-        </div>
-      </div>
+      <Step title="Tamaño. ¿Cómo de grande lo necesitas?">
+        <SizeOptions onSelectOption={this.handleOnSizeOptionsSelectChange}/>
+      </Step>
     );
   }
 
-  private renderFourthStep(): React.ReactNode {
+  private handleOnSizeOptionsSelectChange(selectedSizeOption: Option | undefined): void {
+    this.setState({ selectedSizeOption });
+  }
+
+  private renderHousePriceQuestion(): React.ReactNode {
     return (
-      <div className="step">
-        <div className="title">Añádenos un comentario</div>
-        <div className="inputs">
-          <div className="input-wrapper">
-            <TextField
-              label="Comentario"
-              variant="filled"
-              margin="normal"
-              fullWidth={true}
-              multiline={true}
-              onChange={this.handleOnCommentInputChange}
-              rows={4}
-              rowsMax={4}
-              error={this.state.commentError}
-              helperText={this.state.commentError ? 'Comentario demasiado largo.' : ''}
-              InputProps={{
-                className: 'input',
-              }}
-            />
-          </div>
-        </div>
-      </div>
+      <Step title="¿Cuánto estas dispuesto a gastar? (Recuerda que necesitarás disponer de un 25% inicial...)">
+        <HousePrice/>
+      </Step>
     );
   }
 
-  private handleOnCommentInputChange(event: ChangeEvent<HTMLInputElement>): void {
+  private renderCommentQuestion(): React.ReactNode {
+    return (
+      <CommentQuestion onCommentChange={this.handleOnCommentInputChange}/>
+    );
+  }
 
-    const value = event.target.value;
+  private handleOnCommentInputChange(comment: string): void {
+    this.setState({ comment });
+  }
 
-    if (value.length > 150) {
-      this.setState({
-        commentError: true,
-      });
-    } else {
-      this.setState({
-        commentError: false,
-        comment: value,
-      });
-    }
+  private renderContactQuestions(): React.ReactNode {
+    return (
+      <ContactQuestions
+        onNameInputChange={this.handleOnNameInputChange}
+        onPhoneNumberInputChange={this.handleOnPhoneNumberInputChange}
+        onEmailInputChange={this.handleOnEmailInputChange}
+      />
+    );
+  }
+
+  private handleOnNameInputChange(name: string): void {
+    this.setState({ name });
+  }
+
+  private handleOnPhoneNumberInputChange(phone: string): void {
+    this.setState({ phone });
+  }
+
+  private handleOnEmailInputChange(email: string): void {
+    this.setState({ email });
   }
 }
 
