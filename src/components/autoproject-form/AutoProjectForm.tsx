@@ -28,6 +28,7 @@ interface State {
   name?: string;
   phone?: string;
   email?: string;
+  wantsContact: boolean;
 }
 
 @autobind
@@ -41,6 +42,7 @@ export class AutoProjectForm extends React.Component<Props, State> {
 
     this.state = {
       regions: [],
+      wantsContact: false,
     };
   }
 
@@ -60,7 +62,7 @@ export class AutoProjectForm extends React.Component<Props, State> {
         {this.renderHousePriceQuestion()}
         {this.renderCommentQuestion()}
         {this.renderContactQuestions()}
-        <FinalExplanation/>
+        <FinalExplanation onCheckboxChange={this.handleOnWantsContactCheckboxChange}/>
         <div className="submit-button-wrapper">
           <Button variant="contained" size="large" color="primary" onClick={this.onClickButton}>
             Enviar!
@@ -148,7 +150,13 @@ export class AutoProjectForm extends React.Component<Props, State> {
   }
 
   private onClickButton(): void {
-    console.log("send!")
+    console.log('send!');
+  }
+
+  private handleOnWantsContactCheckboxChange(checked: boolean): void {
+    this.setState({
+      wantsContact: checked,
+    });
   }
 }
 

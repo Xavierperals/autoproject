@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import './FinalExplanation.scss';
 import { FormControlLabel, Checkbox } from '@material-ui/core';
+import autobind from 'autobind-decorator';
 
-export class FinalExplanation extends React.PureComponent {
+interface Props {
+  onCheckboxChange(checked: boolean): void;
+}
+
+@autobind
+export class FinalExplanation extends React.PureComponent<Props> {
 
   public render(): React.ReactNode {
     return (
@@ -19,7 +25,7 @@ export class FinalExplanation extends React.PureComponent {
         <div className="checkbox-wrapper">
           <FormControlLabel
             value="end"
-            control={<Checkbox color="primary" />}
+            control={<Checkbox onChange={this.handleOnCheckboxChange} color="primary" />}
             label="Si quieres que nos pongamos en contacto igualmente y ofrecerte proyectos marca esta casilla. Si no es así! No te molestaremos..."
             labelPlacement="end"
           />
@@ -27,5 +33,9 @@ export class FinalExplanation extends React.PureComponent {
 
       </div>
     );
+  }
+
+  private handleOnCheckboxChange(event: ChangeEvent<{}>, checked: boolean): void {
+    this.props.onCheckboxChange(checked);
   }
 }
