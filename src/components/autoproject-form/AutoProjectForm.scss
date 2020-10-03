@@ -19,7 +19,13 @@
       color: white;
     }
   }
+}
 
+.submit-button-wrapper {
+  padding: 20px;
+  text-align: center;
 
-
+  button {
+    font-weight: 600;
+  }
 }

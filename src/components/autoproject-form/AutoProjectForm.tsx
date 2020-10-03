@@ -12,6 +12,8 @@ import { LocationQuestions } from './partials/LocationQuestions';
 import { Step } from './common/Step';
 import { CommentQuestion } from './partials/CommentQuestion';
 import { ContactQuestions } from './partials/ContactQuestions';
+import { FinalExplanation } from '../final-explanation/FinalExplanation';
+import { Button } from '@material-ui/core';
 
 interface Props {
 }
@@ -58,6 +60,12 @@ export class AutoProjectForm extends React.Component<Props, State> {
         {this.renderHousePriceQuestion()}
         {this.renderCommentQuestion()}
         {this.renderContactQuestions()}
+        <FinalExplanation/>
+        <div className="submit-button-wrapper">
+          <Button variant="contained" size="large" color="primary" onClick={this.onClickButton}>
+            Enviar!
+          </Button>
+        </div>
       </div>
     );
   }
@@ -137,6 +145,10 @@ export class AutoProjectForm extends React.Component<Props, State> {
 
   private handleOnEmailInputChange(email: string): void {
     this.setState({ email });
+  }
+
+  private onClickButton(): void {
+    console.log("send!")
   }
 }
 
