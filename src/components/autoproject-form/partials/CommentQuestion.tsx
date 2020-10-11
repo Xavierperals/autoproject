@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { Step } from '../common/Step';
 import { TextField } from '@material-ui/core';
+import autobind from 'autobind-decorator';
 
 interface Props {
   onCommentChange(comment: string): void;
@@ -10,6 +11,7 @@ interface State {
   commentError: boolean;
 }
 
+@autobind
 export class CommentQuestion extends React.PureComponent<Props, State> {
 
   public constructor(props: Props) {
@@ -17,7 +19,7 @@ export class CommentQuestion extends React.PureComponent<Props, State> {
 
     this.state = {
       commentError: false,
-    }
+    };
   }
 
   public render(): React.ReactNode {

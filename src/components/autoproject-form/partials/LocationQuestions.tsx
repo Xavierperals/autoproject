@@ -21,8 +21,8 @@ interface State {
 
 @autobind
 export class LocationQuestions extends React.PureComponent<Props, State> {
-  public render(): React.ReactNode {
 
+  public render(): React.ReactNode {
     const { regions, selectedRegion, selectedCity } = this.props;
 
     return (

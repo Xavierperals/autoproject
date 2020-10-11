@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { Step } from '../common/Step';
 import { TextField } from '@material-ui/core';
+import autobind from 'autobind-decorator';
 
 interface Props {
   onNameInputChange(name: string): void;
@@ -8,6 +9,7 @@ interface Props {
   onEmailInputChange(email: string): void;
 }
 
+@autobind
 export class ContactQuestions extends React.PureComponent<Props> {
   public render(): React.ReactNode {
     return (

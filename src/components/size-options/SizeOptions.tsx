@@ -3,16 +3,17 @@ import './SizeOptions.scss';
 import autobind from 'autobind-decorator';
 
 interface Props {
-  onSelectOption: (option: Option | undefined) => void;
+  onSelectOption: (option: SizeOption | undefined) => void;
 }
 
 interface State {
-  selected?: Option;
+  selected?: SizeOption;
 }
 
-export interface Option {
+export interface SizeOption {
   min?: number;
   max?: number;
+  value: string;
 }
 
 @autobind
@@ -25,24 +26,29 @@ export class SizeOptions extends React.Component<Props, State> {
     };
   }
 
-  private options: Option[] = [
+  private options: SizeOption[] = [
     {
       max: 60,
+      value: 'LESS_THAN_60',
     },
     {
       min: 60,
       max: 80,
+      value: 'BETWEEN_60_AND_80',
     },
     {
       min: 80,
       max: 100,
+      value: 'BETWEEN_80_AND_100',
     },
     {
       min: 100,
       max: 120,
+      value: 'BETWEEN_100_AND_120',
     },
     {
       min: 120,
+      value: 'MORE_THAN_120',
     },
   ];
 
@@ -54,7 +60,7 @@ export class SizeOptions extends React.Component<Props, State> {
     );
   }
 
-  private renderOption(option: Option, index: number): React.ReactNode {
+  private renderOption(option: SizeOption, index: number): React.ReactNode {
 
     const { min, max } = option;
 
@@ -82,7 +88,7 @@ export class SizeOptions extends React.Component<Props, State> {
       </span>);
   }
 
-  private optionStyles(option: Option): string {
+  private optionStyles(option: SizeOption): string {
     let styles = 'noselect option ';
 
     if (this.isSelected(option)) {
@@ -92,16 +98,17 @@ export class SizeOptions extends React.Component<Props, State> {
     return styles;
   }
 
-  private isSelected(option: Option): boolean {
+  private isSelected(option: SizeOption): boolean {
     const { selected } = this.state;
     return !!selected &&
       selected?.min === option?.min &&
       selected?.max === option?.max;
   }
 
-  private onClickOption(option: Option): void {
+  private onClickOption(option: SizeOption): void {
     this.setState({
       selected: this.isSelected(option) ? undefined : option,
     });
+    this.props.onSelectOption(option);
   }
 }

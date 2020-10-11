@@ -2,7 +2,7 @@ import React from 'react';
 import { Title } from '../title/Title';
 import { Description } from '../description/Description';
 import './AutoProjectForm.scss';
-import { Option, SizeOptions } from '../size-options/SizeOptions';
+import { SizeOption, SizeOptions } from '../size-options/SizeOptions';
 import { HousePrice } from '../house-price/HousePrice';
 import { ApiClient } from '../../api/ApiClient';
 import { Region } from '../../entities/Region';
@@ -14,6 +14,8 @@ import { CommentQuestion } from './partials/CommentQuestion';
 import { ContactQuestions } from './partials/ContactQuestions';
 import { FinalExplanation } from '../final-explanation/FinalExplanation';
 import { Button } from '@material-ui/core';
+import swal from 'sweetalert2';
+import { SubmitResponse } from '../../api/SubmitResponse';
 
 interface Props {
 }
@@ -23,7 +25,8 @@ interface State {
   selectedRegion?: Region;
   selectedCity?: City;
   neighborhood?: string;
-  selectedSizeOption?: Option;
+  selectedSizeOption?: SizeOption;
+  housePrice?: number;
   comment?: string;
   name?: string;
   phone?: string;
@@ -86,7 +89,10 @@ export class AutoProjectForm extends React.Component<Props, State> {
   }
 
   private handleOnRegionInputChange(selectedRegion: Region | undefined): void {
-    this.setState({ selectedRegion });
+    this.setState({
+      selectedRegion,
+      selectedCity: undefined,
+    });
   }
 
   private handleOnCityInputChange(selectedCity: City | undefined): void {
@@ -105,16 +111,22 @@ export class AutoProjectForm extends React.Component<Props, State> {
     );
   }
 
-  private handleOnSizeOptionsSelectChange(selectedSizeOption: Option | undefined): void {
+  private handleOnSizeOptionsSelectChange(selectedSizeOption: SizeOption | undefined): void {
     this.setState({ selectedSizeOption });
   }
 
   private renderHousePriceQuestion(): React.ReactNode {
     return (
       <Step title="¿Cuánto estas dispuesto a gastar? (Recuerda que necesitarás disponer de un 25% inicial...)">
-        <HousePrice/>
+        <HousePrice onChange={this.handleOnHousePriceChange}/>
       </Step>
     );
+  }
+
+  private handleOnHousePriceChange(value: number): void {
+    this.setState({
+      housePrice: value,
+    });
   }
 
   private renderCommentQuestion(): React.ReactNode {
@@ -149,8 +161,25 @@ export class AutoProjectForm extends React.Component<Props, State> {
     this.setState({ email });
   }
 
-  private onClickButton(): void {
-    console.log('send!');
+  private async onClickButton(): Promise<void> {
+    const response: SubmitResponse = await this.apiClient.submitForm({
+      region: this.state.selectedRegion?.name,
+      city: this.state.selectedCity?.name,
+      neighborhood: this.state.neighborhood,
+      size: this.state.selectedSizeOption?.value,
+      house_price: this.state.housePrice,
+      comment: this.state.comment,
+      name: this.state.name,
+      email: this.state.email,
+      phone_number: this.state.phone,
+      wants_contact: this.state.wantsContact,
+    });
+
+    if (response.success) {
+      await swal.fire('Formulario enviado!', 'Revisa tu correo', 'success');
+    } else {
+      console.log(response.errors)
+    }
   }
 
   private handleOnWantsContactCheckboxChange(checked: boolean): void {

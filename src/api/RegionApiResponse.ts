@@ -1,4 +1,4 @@
-export interface ApiResponse {
+export interface RegionApiResponse {
   fitxes: {
     p: string;
     v: {

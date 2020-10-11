@@ -4,7 +4,7 @@ import { FilledInput, FormControl, InputAdornment, InputLabel } from '@material-
 import autobind from 'autobind-decorator';
 
 interface Props {
-
+  onChange(value: number): void;
 }
 
 interface State {
@@ -67,19 +67,20 @@ export class HousePrice extends React.Component<Props, State> {
 
   private handleOnInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
 
-    let valueWithSpaces = event.target.value;
+    let value = event.target.value;
 
-    while (valueWithSpaces.includes(' ')) {
-      valueWithSpaces = valueWithSpaces.replace(' ', '');
+    while (value.includes(' ')) {
+      value = value.replace(' ', '');
     }
 
-    const value = Number(valueWithSpaces);
+    const numericValue = Number(value);
 
-    if (isNaN(value) || value > 50000000) {
+    if (isNaN(numericValue) || numericValue > 50000000) {
       return;
     }
 
-    this.setState({ value });
+    this.setState({ value: numericValue });
+    this.props.onChange(numericValue);
   }
 
   private formatDigit(value: number) {
