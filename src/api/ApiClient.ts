@@ -4,6 +4,7 @@ import { RegionApiResponse } from './RegionApiResponse';
 import { City } from '../entities/City';
 import { SubmitResponse } from './SubmitResponse';
 import { SubmitRequest } from './SubmitRequest';
+import { API_URL } from '../resources/const';
 
 export class ApiClient {
 
@@ -27,7 +28,7 @@ export class ApiClient {
     Object.keys(request).forEach(requestKey => formData.append(requestKey, request[requestKey]));
 
     const response: AxiosResponse<SubmitResponse> = await axios.post(
-      'http://localhost:8080/api/v1/autoproject-form-contact',
+      API_URL + '/api/v1/autoproject-form-contact',
       formData,
     );
 
