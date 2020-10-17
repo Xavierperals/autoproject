@@ -117,7 +117,7 @@ export class AutoProjectForm extends React.Component<Props, State> {
 
   private renderHousePriceQuestion(): React.ReactNode {
     return (
-      <Step title="¿Cuánto estas dispuesto a gastar? (Recuerda que necesitarás disponer de un 25% inicial...)">
+      <Step title="¿Cuánto estas dispuesto a gastar? (Recuerda que necesitarás disponer de un 20% inicial...)">
         <HousePrice onChange={this.handleOnHousePriceChange}/>
       </Step>
     );

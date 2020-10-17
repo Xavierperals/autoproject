@@ -51,7 +51,7 @@ export class HousePrice extends React.Component<Props, State> {
       return null;
     }
 
-    const initial = this.calculatePercent(25);
+    const initial = this.calculatePercent(20);
 
     return (
       <div className="percent">
