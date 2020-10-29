@@ -8,6 +8,10 @@
 
   .inputs {
     padding-left: 15px;
+
+    @media (max-width: 1300px) {
+      padding-left: 0;
+    }
   }
 
   .input-wrapper {
