@@ -1,8 +1,6 @@
 
 .final-explanation {
   margin-top: 35px;
-  padding-left: 35px;
-
   color: rgba(255, 255, 255, 0.7);
 
   p {
@@ -13,9 +11,18 @@
     padding-left: 30px;
     padding-right: 30px;
     font-weight: 400;
+
+    @media (max-width: 700px) {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
   }
 
   .checkbox-wrapper {
     padding: 10px 15%;
+
+    @media (max-width: 700px) {
+      padding: 10px 15%;
+    }
   }
 }

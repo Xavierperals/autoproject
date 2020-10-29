@@ -15,6 +15,10 @@
     margin-right: auto;
     margin-left: auto;
 
+    @media (max-width: 1300px) {
+      width: 90%;
+    }
+
     .input {
       color: white;
     }

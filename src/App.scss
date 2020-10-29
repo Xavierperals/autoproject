@@ -1,14 +1,36 @@
 .app {
 
+  @media (max-width: 700px) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   .app-form-wrapper {
     background-color: #424242;
     padding: 50px;
     border-radius: 5px;
-    width: 1100px;
+    max-width: 1100px;
+    width: 100%;
     margin: 50px auto;
     -webkit-box-shadow: 6px 6px 16px 3px rgba(0,0,0,0.75);
     -moz-box-shadow: 6px 6px 16px 3px rgba(0,0,0,0.75);
     box-shadow: 6px 6px 16px 3px rgba(0,0,0,0.75);
+
+    transition: all 1s;
+
+    @media (max-width: 1300px) {
+      width: 80%;
+      max-width: none;
+      margin: 20px auto;
+
+      padding: 35px;
+    }
+
+    @media (max-width: 700px) {
+      width: 100%;
+      margin: 0;
+      padding: 20px;
+    }
   }
 }
 
