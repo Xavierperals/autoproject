@@ -1,13 +1,9 @@
 import React from 'react';
-import './SizeOptions.scss';
 import autobind from 'autobind-decorator';
+import { Option, Options } from '../autoproject-form/common/options/Options';
 
 interface Props {
-  onSelectOption: (option: SizeOption | undefined) => void;
-}
-
-interface State {
-  selected?: SizeOption;
+  onSelectOption: (option: Option | undefined) => void;
 }
 
 export interface SizeOption {
@@ -17,15 +13,7 @@ export interface SizeOption {
 }
 
 @autobind
-export class SizeOptions extends React.Component<Props, State> {
-
-  public constructor(props: Props) {
-    super(props);
-    this.state = {
-      selected: undefined,
-    };
-  }
-
+export class SizeOptions extends React.Component<Props> {
   private options: SizeOption[] = [
     {
       max: 60,
@@ -54,13 +42,14 @@ export class SizeOptions extends React.Component<Props, State> {
 
   public render(): React.ReactNode {
     return (
-      <div className="options">
-        {this.options.map(this.renderOption)}
-      </div>
+      <Options
+        options={this.options.map(this.buildOption)}
+        onSelectOption={this.props.onSelectOption}
+      />
     );
   }
 
-  private renderOption(option: SizeOption, index: number): React.ReactNode {
+  private buildOption(option: SizeOption): Option {
 
     const { min, max } = option;
 
@@ -78,37 +67,9 @@ export class SizeOptions extends React.Component<Props, State> {
       text = `Entre ${min} y ${max} m2`;
     }
 
-    return (
-      <span
-        key={index}
-        className={this.optionStyles(option)}
-        onClick={() => this.onClickOption(option)}
-      >
-        {text}
-      </span>);
-  }
-
-  private optionStyles(option: SizeOption): string {
-    let styles = 'noselect option ';
-
-    if (this.isSelected(option)) {
-      styles += ' option-selected';
-    }
-
-    return styles;
-  }
-
-  private isSelected(option: SizeOption): boolean {
-    const { selected } = this.state;
-    return !!selected &&
-      selected?.min === option?.min &&
-      selected?.max === option?.max;
-  }
-
-  private onClickOption(option: SizeOption): void {
-    this.setState({
-      selected: this.isSelected(option) ? undefined : option,
-    });
-    this.props.onSelectOption(option);
+    return {
+      text: text,
+      value: option.value
+    };
   }
 }

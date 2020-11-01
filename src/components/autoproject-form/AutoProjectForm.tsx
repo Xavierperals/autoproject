@@ -2,7 +2,7 @@ import React from 'react';
 import { Title } from '../title/Title';
 import { Description } from '../description/Description';
 import './AutoProjectForm.scss';
-import { SizeOption, SizeOptions } from '../size-options/SizeOptions';
+import { SizeOptions } from '../size-options/SizeOptions';
 import { HousePrice } from '../house-price/HousePrice';
 import { ApiClient } from '../../api/ApiClient';
 import { Region } from '../../entities/Region';
@@ -16,6 +16,7 @@ import { FinalExplanation } from '../final-explanation/FinalExplanation';
 import { Button } from '@material-ui/core';
 import swal from 'sweetalert2';
 import { SubmitResponse } from '../../api/SubmitResponse';
+import { Option, Options } from './common/options/Options';
 
 interface Props {
 }
@@ -25,8 +26,9 @@ interface State {
   selectedRegion?: Region;
   selectedCity?: City;
   neighborhood?: string;
-  selectedSizeOption?: SizeOption;
   housePrice?: number;
+  selectedSizeOption?: Option;
+  selectedRoomsOption?: Option;
   comment?: string;
   name?: string;
   phone?: string;
@@ -61,8 +63,9 @@ export class AutoProjectForm extends React.Component<Props, State> {
         <Title/>
         <Description/>
         {this.renderLocationQuestions()}
-        {this.renderSizeQuestions()}
         {this.renderHousePriceQuestion()}
+        {this.renderSizeQuestions()}
+        {this.renderRoomsQuestion()}
         {this.renderCommentQuestion()}
         {this.renderContactQuestions()}
         <FinalExplanation onCheckboxChange={this.handleOnWantsContactCheckboxChange}/>
@@ -105,19 +108,19 @@ export class AutoProjectForm extends React.Component<Props, State> {
 
   private renderSizeQuestions(): React.ReactNode {
     return (
-      <Step title="Tamaño. ¿Cómo de grande lo necesitas?">
+      <Step title="Superficie. ¿Cómo de grande lo necesitas?">
         <SizeOptions onSelectOption={this.handleOnSizeOptionsSelectChange}/>
       </Step>
     );
   }
 
-  private handleOnSizeOptionsSelectChange(selectedSizeOption: SizeOption | undefined): void {
+  private handleOnSizeOptionsSelectChange(selectedSizeOption: Option | undefined): void {
     this.setState({ selectedSizeOption });
   }
 
   private renderHousePriceQuestion(): React.ReactNode {
     return (
-      <Step title="¿Cuánto estas dispuesto a gastar? (Recuerda que necesitarás disponer de un 20% inicial...)">
+      <Step title="¿Cuánto estás dispuesto a gastar? Deberás disponer de un 20% inicial">
         <HousePrice onChange={this.handleOnHousePriceChange}/>
       </Step>
     );
@@ -126,6 +129,31 @@ export class AutoProjectForm extends React.Component<Props, State> {
   private handleOnHousePriceChange(value: number): void {
     this.setState({
       housePrice: value,
+    });
+  }
+
+  private renderRoomsQuestion(): React.ReactNode {
+    return (
+      <Step title="Habitaciones">
+        <Options
+          options={[
+            { text: 'Sin habitaciones', value: '0' },
+            { text: '1', value: '1' },
+            { text: '2', value: '2' },
+            { text: '3', value: '3' },
+            { text: '4', value: '4' },
+            { text: '5', value: '5' },
+            { text: 'Más de 5', value: '>5' },
+          ]}
+          onSelectOption={this.handleOnRoomsSelectChange}
+        />
+      </Step>
+    );
+  }
+
+  private handleOnRoomsSelectChange(option: Option | undefined): void {
+    this.setState({
+      selectedRoomsOption: option,
     });
   }
 
@@ -161,13 +189,20 @@ export class AutoProjectForm extends React.Component<Props, State> {
     this.setState({ email });
   }
 
+  private handleOnWantsContactCheckboxChange(checked: boolean): void {
+    this.setState({
+      wantsContact: checked,
+    });
+  }
+
   private async onClickButton(): Promise<void> {
     const response: SubmitResponse = await this.apiClient.submitForm({
       region: this.state.selectedRegion?.name,
       city: this.state.selectedCity?.name,
       neighborhood: this.state.neighborhood,
-      size: this.state.selectedSizeOption?.value,
       house_price: this.state.housePrice,
+      size: this.state.selectedSizeOption?.value,
+      rooms: this.state.selectedRoomsOption?.value,
       comment: this.state.comment,
       name: this.state.name,
       email: this.state.email,
@@ -176,16 +211,10 @@ export class AutoProjectForm extends React.Component<Props, State> {
     });
 
     if (response.success) {
-      await swal.fire('Formulario enviado!', 'Revisa tu correo', 'success');
+      await swal.fire('Formulario enviado!', 'Te vamos a redirigir a nuestra página web.', 'success');
     } else {
-      console.log(response.errors)
+      console.log(response.errors);
     }
-  }
-
-  private handleOnWantsContactCheckboxChange(checked: boolean): void {
-    this.setState({
-      wantsContact: checked,
-    });
   }
 }
 
