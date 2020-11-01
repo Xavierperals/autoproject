@@ -4,6 +4,7 @@ import React, { ChangeEvent } from 'react';
 
 interface Props {
   onChange?: (event: ChangeEvent<{}>, value: string | null) => void;
+  value: string;
   label: string;
   options: string[];
   disabled: boolean;
@@ -15,6 +16,7 @@ export const AutocompleteInput = (props: Props) => (
       options={props.options}
       disabled={props.disabled}
       onChange={props.onChange}
+      value={props.value}
       renderInput={params => (
         <TextField
           {...params}
@@ -22,6 +24,7 @@ export const AutocompleteInput = (props: Props) => (
           disabled={props.disabled}
           margin="normal"
           variant="filled"
+          value={props.value}
           InputProps={{
             ...params.InputProps,
             type: 'search',

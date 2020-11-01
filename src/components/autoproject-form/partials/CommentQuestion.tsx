@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { Step } from '../common/Step';
+import { Step } from '../common/steps/Step';
 import { TextField } from '@material-ui/core';
 import autobind from 'autobind-decorator';
 

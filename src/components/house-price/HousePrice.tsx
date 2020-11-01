@@ -1,10 +1,10 @@
 import React, { ChangeEvent } from 'react';
 import './HousePrice.scss';
-import { FilledInput, FormControl, InputAdornment, InputLabel } from '@material-ui/core';
+import { FilledInput, FormControl, FormHelperText, InputAdornment, InputLabel } from '@material-ui/core';
 import autobind from 'autobind-decorator';
 
 interface Props {
-  onChange(value: number): void;
+  onChange(value: number, error: boolean): void;
 }
 
 interface State {
@@ -16,7 +16,7 @@ export class HousePrice extends React.Component<Props, State> {
 
   public constructor(props: Props) {
     super(props);
-    this.state = { value: 50000 };
+    this.state = { value: 100_000 };
   }
 
   public render(): React.ReactNode {
@@ -35,12 +35,15 @@ export class HousePrice extends React.Component<Props, State> {
         <FilledInput
           id="filled-adornment-amount"
           value={this.formatDigit(this.state.value)}
-          type="text"
+          type="tel"
+          inputMode="tel"
+          error={this.hasErrors()}
           onChange={this.handleOnInputChange}
           startAdornment={
             <InputAdornment position="start">€</InputAdornment>
           }
         />
+        <FormHelperText error={this.hasErrors()}>Min 100 000 - Max 1 000 000</FormHelperText>
       </FormControl>
     );
   }
@@ -51,7 +54,14 @@ export class HousePrice extends React.Component<Props, State> {
       return null;
     }
 
-    const initial = this.calculatePercent(20);
+    if (this.hasErrors()) {
+      return (
+        <div className="percent"/>
+      );
+    }
+
+    let initial = this.calculatePercent(20);
+    initial = Math.round(initial);
 
     return (
       <div className="percent">
@@ -73,17 +83,23 @@ export class HousePrice extends React.Component<Props, State> {
       value = value.replace(' ', '');
     }
 
-    const numericValue = Number(value);
+    let numericValue = Number(value);
 
-    if (isNaN(numericValue) || numericValue > 50000000) {
+    if (isNaN(numericValue) || numericValue > 1_000_000) {
       return;
     }
 
+    numericValue = Math.round(numericValue);
+
     this.setState({ value: numericValue });
-    this.props.onChange(numericValue);
+    this.props.onChange(numericValue, this.hasErrors());
   }
 
   private formatDigit(value: number) {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  }
+
+  private hasErrors(): boolean {
+    return this.state.value < 100_000 || this.state.value > 1_000_000;
   }
 }

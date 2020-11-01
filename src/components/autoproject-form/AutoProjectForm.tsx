@@ -9,7 +9,7 @@ import { Region } from '../../entities/Region';
 import autobind from 'autobind-decorator';
 import { City } from '../../entities/City';
 import { LocationQuestions } from './partials/LocationQuestions';
-import { Step } from './common/Step';
+import { Step } from './common/steps/Step';
 import { CommentQuestion } from './partials/CommentQuestion';
 import { ContactQuestions } from './partials/ContactQuestions';
 import { FinalExplanation } from '../final-explanation/FinalExplanation';
@@ -27,6 +27,7 @@ interface State {
   selectedCity?: City;
   neighborhood?: string;
   housePrice?: number;
+  housePriceError: boolean;
   selectedSizeOption?: Option;
   selectedRoomsOption?: Option;
   comment?: string;
@@ -47,6 +48,7 @@ export class AutoProjectForm extends React.Component<Props, State> {
 
     this.state = {
       regions: [],
+      housePriceError: false,
       wantsContact: false,
     };
   }
@@ -126,9 +128,10 @@ export class AutoProjectForm extends React.Component<Props, State> {
     );
   }
 
-  private handleOnHousePriceChange(value: number): void {
+  private handleOnHousePriceChange(value: number, error: boolean): void {
     this.setState({
       housePrice: value,
+      housePriceError: error,
     });
   }
 
@@ -212,9 +215,14 @@ export class AutoProjectForm extends React.Component<Props, State> {
 
     if (response.success) {
       await swal.fire('Formulario enviado!', 'Te vamos a redirigir a nuestra página web.', 'success');
+      this.redirectAfterFormSubmit();
     } else {
       console.log(response.errors);
     }
+  }
+
+  private redirectAfterFormSubmit(): void {
+    window.location.href = 'https://www.pisosautopromocio.com';
   }
 }
 

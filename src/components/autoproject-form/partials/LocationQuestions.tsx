@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { Step } from '../common/Step';
+import { Step } from '../common/steps/Step';
 import { AutocompleteInput } from '../../autocomplete-input/AutocompleteInput';
 import { TextField } from '@material-ui/core';
 import { Region } from '../../../entities/Region';
@@ -30,18 +30,20 @@ export class LocationQuestions extends React.PureComponent<Props, State> {
         <AutocompleteInput
           label="Comarca"
           options={regions.map(r => r.name)}
+          value={selectedRegion?.name || ''}
           disabled={false}
           onChange={this.handleOnRegionInputChange}
         />
         <AutocompleteInput
           label="Población"
           options={selectedRegion?.cities.map(c => c.name) || []}
+          value={selectedCity?.name || ''}
           disabled={!selectedRegion}
           onChange={this.handleOnCityInputChange}
         />
         <div className="input-wrapper">
           <TextField
-            label="Barrio / Zona"
+            label="Barrio / Zona (Optional)"
             variant="filled"
             margin="normal"
             fullWidth={true}

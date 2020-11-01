@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { Step } from '../common/Step';
+import { Step } from '../common/steps/Step';
 import { TextField } from '@material-ui/core';
 import autobind from 'autobind-decorator';
 
@@ -29,6 +29,8 @@ export class ContactQuestions extends React.PureComponent<Props> {
             label="Número de teléfono"
             variant="filled"
             margin="normal"
+            type="tel"
+            inputMode="tel"
             fullWidth={true}
             onChange={this.handleOnPhoneNumberInputChange}
             InputProps={{ className: 'input' }}
@@ -39,6 +41,7 @@ export class ContactQuestions extends React.PureComponent<Props> {
             label="Correo Electrónico"
             variant="filled"
             inputMode="email"
+            type="email"
             margin="normal"
             fullWidth={true}
             onChange={this.handleOnEmailInputChange}
