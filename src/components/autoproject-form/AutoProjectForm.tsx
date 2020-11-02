@@ -89,6 +89,7 @@ export class AutoProjectForm extends React.Component<Props, State> {
         onCityInputChange={this.handleOnCityInputChange}
         selectedCity={this.state.selectedCity}
         onNeighborhoodInputChange={this.handleOnNeighborhoodInputChange}
+        neighborhood={this.state.neighborhood}
       />
     );
   }
@@ -101,7 +102,7 @@ export class AutoProjectForm extends React.Component<Props, State> {
   }
 
   private handleOnCityInputChange(selectedCity: City | undefined): void {
-    this.setState({ selectedCity });
+    this.setState({ selectedCity, neighborhood: '' });
   }
 
   private handleOnNeighborhoodInputChange(neighborhood: string): void {
@@ -217,6 +218,7 @@ export class AutoProjectForm extends React.Component<Props, State> {
       await swal.fire('Formulario enviado!', 'Te vamos a redirigir a nuestra página web.', 'success');
       this.redirectAfterFormSubmit();
     } else {
+      await swal.fire('Hay errores en el formulario', '', 'error');
       console.log(response.errors);
     }
   }

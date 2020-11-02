@@ -13,6 +13,7 @@ interface Props {
   onCityInputChange(city: City | undefined): void;
   selectedCity: City | undefined;
   onNeighborhoodInputChange(neighborhood: string): void;
+  neighborhood?: string;
 }
 
 interface State {
@@ -23,7 +24,7 @@ interface State {
 export class LocationQuestions extends React.PureComponent<Props, State> {
 
   public render(): React.ReactNode {
-    const { regions, selectedRegion, selectedCity } = this.props;
+    const { regions, selectedRegion, selectedCity, neighborhood } = this.props;
 
     return (
       <Step title="Localización. Dinos, ¿Dónde te gustaría vivir?">
@@ -47,6 +48,7 @@ export class LocationQuestions extends React.PureComponent<Props, State> {
             variant="filled"
             margin="normal"
             fullWidth={true}
+            value={neighborhood}
             disabled={!selectedCity}
             onChange={this.handleOnNeighborhoodInputChange}
             InputProps={{
