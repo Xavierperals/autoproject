@@ -14,14 +14,8 @@ export class FinalExplanation extends React.PureComponent<Props> {
     return (
       <div className="final-explanation">
         <p>
-          Te damos un plazo maximo de 3 meses para estudiar su vivilidad y asi poder ofrecerte un proyecto a tu medida.
+          Somos expertos en la formación de comunidades de propietarios des de 1992. Tan pronto como tengamos más gente interesada en tu zona te notificaremos por correo y SMS.
         </p>
-
-        <p>
-          Formamos comunidades de propietarios, solo nos ponernos en contacto contigo si lo logramos!
-          (Te avisaremos con un SMS si no hay gente interesada en tu zona).
-        </p>
-
         <div className="checkbox-wrapper">
           <FormControlLabel
             value="end"

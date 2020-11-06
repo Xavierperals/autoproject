@@ -7,13 +7,12 @@ interface Props {
 export const Description = (props: Props) => (
   <div className="description">
     <p className="description-text">
-      ¡Buscamos solución al problema de la vivienda! ¡Nosotros hacemos posible tu piso nuevo! ¡Puedes ahorrar hasta un 30%!
-      ¡A tu medida y muy por debajo el precio de mercado! ¡Podrás escoger los acabados! ¡Hasta hacer cambios en la
-      distrubucion del proyecto! ¡Garantizandote la mejor calidad-construcción posible! ¡Si estás interesado,
-      contéstanos un breve cuestionario...
+      ¿Quieres un piso nuevo? ¿Quieres ahorrarte un 30%? ¿Con la última tecnología?
+      ¡Podrás escojer acabados y distribuciones!
+      <br/>
+      Si estás interesado, contesta este breve cuestionario y haremos posible tu piso nuevo en la ubicación que tu nos
+      digas.
     </p>
-    <p className="slogan">
-      ¡Y TRABAJAREMOS PARA HACERLO REALIDAD!
-    </p>
+    {/*<p className="slogan"></p>*/}
   </div>
 );
