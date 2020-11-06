@@ -31,7 +31,12 @@ export class HousePrice extends React.Component<Props, State> {
   private renderInput(): React.ReactNode {
     return (
       <FormControl variant="filled" className="input-price">
-        <InputLabel htmlFor="filled-adornment-amount">Cantidad</InputLabel>
+        <InputLabel
+          htmlFor="filled-adornment-amount"
+          className={this.hasErrors() ? 'error' : ''}
+        >
+          Cantidad
+        </InputLabel>
         <FilledInput
           id="filled-adornment-amount"
           value={this.formatDigit(this.state.value)}
@@ -41,6 +46,11 @@ export class HousePrice extends React.Component<Props, State> {
           onChange={this.handleOnInputChange}
           startAdornment={
             <InputAdornment position="start">€</InputAdornment>
+          }
+          endAdornment={
+            this.hasErrors() ?
+              <InputAdornment position="start">⚠️</InputAdornment>
+              : null
           }
         />
         <FormHelperText error={this.hasErrors()}>Min 100 000 - Max 1 000 000</FormHelperText>
@@ -85,7 +95,7 @@ export class HousePrice extends React.Component<Props, State> {
 
     let numericValue = Number(value);
 
-    if (isNaN(numericValue) || numericValue > 1_000_000) {
+    if (isNaN(numericValue) || numericValue > 10_000_000) {
       return;
     }
 
