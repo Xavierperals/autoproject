@@ -150,7 +150,7 @@ export class AutoProjectForm extends React.Component<Props, State> {
       <Step title="Habitaciones">
         <Options
           options={[
-            { text: 'Sin habitaciones', value: '0' },
+            { text: 'Local Comercial', value: '0' },
             { text: '1', value: '1' },
             { text: '2', value: '2' },
             { text: '3', value: '3' },
