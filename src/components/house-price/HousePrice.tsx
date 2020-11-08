@@ -5,6 +5,7 @@ import autobind from 'autobind-decorator';
 
 interface Props {
   onChange(value: number, error: boolean): void;
+  initialPrice: number;
 }
 
 interface State {
@@ -16,7 +17,7 @@ export class HousePrice extends React.Component<Props, State> {
 
   public constructor(props: Props) {
     super(props);
-    this.state = { value: 100_000 };
+    this.state = { value: props.initialPrice };
   }
 
   public render(): React.ReactNode {
@@ -49,7 +50,7 @@ export class HousePrice extends React.Component<Props, State> {
           }
           endAdornment={
             this.hasErrors() ?
-              <InputAdornment position="start">⚠️</InputAdornment>
+              <InputAdornment position="start"><span role={'img'}>⚠</span>️</InputAdornment>
               : null
           }
         />
@@ -101,8 +102,7 @@ export class HousePrice extends React.Component<Props, State> {
 
     numericValue = Math.round(numericValue);
 
-    this.setState({ value: numericValue });
-    this.props.onChange(numericValue, this.hasErrors());
+    this.setState({ value: numericValue }, () => this.props.onChange(numericValue, this.hasErrors()));
   }
 
   private formatDigit(value: number) {

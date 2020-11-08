@@ -3,7 +3,7 @@ import autobind from 'autobind-decorator';
 import { Option, Options } from '../autoproject-form/common/options/Options';
 
 interface Props {
-  onSelectOption: (option: Option | undefined) => void;
+  onSelectOption: (option: Option) => void;
 }
 
 export interface SizeOption {
@@ -41,9 +41,13 @@ export class SizeOptions extends React.Component<Props> {
   ];
 
   public render(): React.ReactNode {
+
+    const options = this.options.map(this.buildOption)
+
     return (
       <Options
-        options={this.options.map(this.buildOption)}
+        options={options}
+        initialOption={options[2]}
         onSelectOption={this.props.onSelectOption}
       />
     );

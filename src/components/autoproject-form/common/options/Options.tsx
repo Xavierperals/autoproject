@@ -9,11 +9,12 @@ export interface Option {
 
 interface Props {
   options: Option[];
+  initialOption?: Option;
   onSelectOption(option: Option | undefined): void;
 }
 
 interface State {
-  selected: Option | undefined;
+  selected?: Option;
 }
 
 @autobind
@@ -22,7 +23,7 @@ export class Options extends React.Component<Props, State> {
   public constructor(props: Props) {
     super(props);
     this.state = {
-      selected: undefined,
+      selected: props.initialOption,
     };
   }
 

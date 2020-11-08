@@ -8,6 +8,7 @@ interface Props {
   label: string;
   options: string[];
   disabled: boolean;
+  error: boolean;
 }
 
 export const AutocompleteInput = (props: Props) => (
@@ -25,6 +26,7 @@ export const AutocompleteInput = (props: Props) => (
           margin="normal"
           variant="filled"
           value={props.value}
+          error={props.error}
           InputProps={{
             ...params.InputProps,
             type: 'search',

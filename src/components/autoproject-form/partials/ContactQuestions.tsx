@@ -7,6 +7,9 @@ interface Props {
   onNameInputChange(name: string): void;
   onPhoneNumberInputChange(phoneNumber: string): void;
   onEmailInputChange(email: string): void;
+  nameError: boolean;
+  phoneError: boolean;
+  emailError: boolean;
 }
 
 @autobind
@@ -22,6 +25,7 @@ export class ContactQuestions extends React.PureComponent<Props> {
             fullWidth={true}
             onChange={this.handleOnNameInputChange}
             InputProps={{ className: 'input' }}
+            error={this.props.nameError}
           />
         </div>
         <div className="input-wrapper">
@@ -34,6 +38,7 @@ export class ContactQuestions extends React.PureComponent<Props> {
             fullWidth={true}
             onChange={this.handleOnPhoneNumberInputChange}
             InputProps={{ className: 'input' }}
+            error={this.props.phoneError}
           />
         </div>
         <div className="input-wrapper">
@@ -46,6 +51,7 @@ export class ContactQuestions extends React.PureComponent<Props> {
             fullWidth={true}
             onChange={this.handleOnEmailInputChange}
             InputProps={{ className: 'input', }}
+            error={this.props.emailError}
           />
         </div>
       </Step>

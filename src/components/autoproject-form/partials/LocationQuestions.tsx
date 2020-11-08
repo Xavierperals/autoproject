@@ -14,6 +14,7 @@ interface Props {
   selectedCity: City | undefined;
   onNeighborhoodInputChange(neighborhood: string): void;
   neighborhood?: string;
+  formTriedToSend: boolean;
 }
 
 interface State {
@@ -24,7 +25,7 @@ interface State {
 export class LocationQuestions extends React.PureComponent<Props, State> {
 
   public render(): React.ReactNode {
-    const { regions, selectedRegion, selectedCity, neighborhood } = this.props;
+    const { regions, selectedRegion, selectedCity, neighborhood, formTriedToSend } = this.props;
 
     return (
       <Step title="Localización. Dinos, ¿Dónde te gustaría vivir?">
@@ -32,6 +33,7 @@ export class LocationQuestions extends React.PureComponent<Props, State> {
           label="Comarca"
           options={regions.map(r => r.name)}
           value={selectedRegion?.name || ''}
+          error={formTriedToSend && !selectedRegion}
           disabled={false}
           onChange={this.handleOnRegionInputChange}
         />
@@ -39,6 +41,7 @@ export class LocationQuestions extends React.PureComponent<Props, State> {
           label="Población"
           options={selectedRegion?.cities.map(c => c.name) || []}
           value={selectedCity?.name || ''}
+          error={formTriedToSend && !selectedCity}
           disabled={!selectedRegion}
           onChange={this.handleOnCityInputChange}
         />

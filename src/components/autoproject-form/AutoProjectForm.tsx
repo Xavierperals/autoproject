@@ -26,15 +26,16 @@ interface State {
   selectedRegion?: Region;
   selectedCity?: City;
   neighborhood?: string;
-  housePrice?: number;
+  housePrice: number;
   housePriceError: boolean;
-  selectedSizeOption?: Option;
-  selectedRoomsOption?: Option;
+  selectedSizeOption: Option;
+  selectedRoomsOption: Option;
   comment?: string;
   name?: string;
   phone?: string;
   email?: string;
   wantsContact: boolean;
+  formTriedToSend: boolean;
 }
 
 @autobind
@@ -48,8 +49,12 @@ export class AutoProjectForm extends React.Component<Props, State> {
 
     this.state = {
       regions: [],
+      housePrice: 100_000,
       housePriceError: false,
+      selectedSizeOption: { text: 'Entre 80 y 100 m2', value: 'BETWEEN_80_AND_100' }, // Chapuza
+      selectedRoomsOption: { text: '3', value: '3' },
       wantsContact: false,
+      formTriedToSend: false,
     };
   }
 
@@ -90,6 +95,7 @@ export class AutoProjectForm extends React.Component<Props, State> {
         selectedCity={this.state.selectedCity}
         onNeighborhoodInputChange={this.handleOnNeighborhoodInputChange}
         neighborhood={this.state.neighborhood}
+        formTriedToSend={this.state.formTriedToSend}
       />
     );
   }
@@ -117,14 +123,17 @@ export class AutoProjectForm extends React.Component<Props, State> {
     );
   }
 
-  private handleOnSizeOptionsSelectChange(selectedSizeOption: Option | undefined): void {
+  private handleOnSizeOptionsSelectChange(selectedSizeOption: Option): void {
     this.setState({ selectedSizeOption });
   }
 
   private renderHousePriceQuestion(): React.ReactNode {
     return (
       <Step title="¿Cuánto estás dispuesto a gastar? Deberás disponer de un 20% inicial">
-        <HousePrice onChange={this.handleOnHousePriceChange}/>
+        <HousePrice
+          initialPrice={this.state.housePrice}
+          onChange={this.handleOnHousePriceChange}
+        />
       </Step>
     );
   }
@@ -149,13 +158,14 @@ export class AutoProjectForm extends React.Component<Props, State> {
             { text: '5', value: '5' },
             { text: 'Más de 5', value: '>5' },
           ]}
+          initialOption={this.state.selectedRoomsOption}
           onSelectOption={this.handleOnRoomsSelectChange}
         />
       </Step>
     );
   }
 
-  private handleOnRoomsSelectChange(option: Option | undefined): void {
+  private handleOnRoomsSelectChange(option: Option): void {
     this.setState({
       selectedRoomsOption: option,
     });
@@ -177,6 +187,9 @@ export class AutoProjectForm extends React.Component<Props, State> {
         onNameInputChange={this.handleOnNameInputChange}
         onPhoneNumberInputChange={this.handleOnPhoneNumberInputChange}
         onEmailInputChange={this.handleOnEmailInputChange}
+        nameError={this.state.formTriedToSend && !this.state.name}
+        phoneError={this.state.formTriedToSend && !this.state.phone}
+        emailError={this.state.formTriedToSend && !this.state.email}
       />
     );
   }
@@ -200,6 +213,20 @@ export class AutoProjectForm extends React.Component<Props, State> {
   }
 
   private async onClickButton(): Promise<void> {
+
+    const isAllOk = this.checkErrors();
+
+    if (!isAllOk) {
+      this.setState({
+        formTriedToSend: true,
+      });
+      return;
+    } else {
+      this.setState({
+        formTriedToSend: false,
+      });
+    }
+
     const response: SubmitResponse = await this.apiClient.submitForm({
       region: this.state.selectedRegion?.name,
       city: this.state.selectedCity?.name,
@@ -219,12 +246,26 @@ export class AutoProjectForm extends React.Component<Props, State> {
       this.redirectAfterFormSubmit();
     } else {
       await swal.fire('Hay errores en el formulario', '', 'error');
-      console.log(response.errors);
     }
   }
 
   private redirectAfterFormSubmit(): void {
     window.location.href = 'https://www.pisosautopromocio.com';
+  }
+
+  private checkErrors(): boolean {
+    const {
+      selectedRegion, selectedCity, housePriceError, selectedSizeOption, selectedRoomsOption, email, name, phone,
+    } = this.state;
+
+    return !!selectedRegion &&
+      !!selectedCity &&
+      !housePriceError &&
+      !!selectedSizeOption &&
+      !!selectedRoomsOption &&
+      !!email &&
+      !!name &&
+      !!phone;
   }
 }
 
