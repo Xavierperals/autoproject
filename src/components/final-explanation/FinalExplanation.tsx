@@ -14,13 +14,13 @@ export class FinalExplanation extends React.PureComponent<Props> {
     return (
       <div className="final-explanation">
         <p>
-          Somos expertos en la formación de comunidades de propietarios des de 1992. Tan pronto como tengamos más gente interesada en tu zona te notificaremos por correo y SMS.
+          Somos expertos en la formación de comunidades de propietarios des de 1992. Tan pronto como tengamos más gente interesada en tu zona te notificaremos por correo o SMS.
         </p>
         <div className="checkbox-wrapper">
           <FormControlLabel
             value="end"
             control={<Checkbox onChange={this.handleOnCheckboxChange} color="primary" />}
-            label="Si quieres que nos pongamos en contacto igualmente y ofrecerte proyectos marca esta casilla. Si no es así! No te molestaremos..."
+            label="Si quieres recibir más información y promociones marca esta casilla."
             labelPlacement="end"
           />
         </div>
