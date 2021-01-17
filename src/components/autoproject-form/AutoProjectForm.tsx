@@ -77,6 +77,8 @@ export class AutoProjectForm extends React.Component<Props, State> {
         {this.renderContactQuestions()}
         <FinalExplanation onCheckboxChange={this.handleOnWantsContactCheckboxChange}/>
         <div className="submit-button-wrapper">
+         <p>Al usar este formulario estas aceptando nuestra  <a href="POLITICA_DE_PRIVACIDAD.pdf" download> política de privacidad.</a>
+          </p>
           <Button variant="contained" size="large" color="primary" onClick={this.onClickButton}>
             Enviar!
           </Button>
@@ -255,7 +257,7 @@ export class AutoProjectForm extends React.Component<Props, State> {
 
   private checkErrors(): boolean {
     const {
-      selectedRegion, selectedCity, housePriceError, selectedSizeOption, selectedRoomsOption, email, name, phone,
+      selectedRegion, selectedCity, housePriceError, selectedSizeOption, selectedRoomsOption, email, name,
     } = this.state;
 
     return !!selectedRegion &&
@@ -264,7 +266,6 @@ export class AutoProjectForm extends React.Component<Props, State> {
       !!selectedSizeOption &&
       !!selectedRoomsOption &&
       !!email &&
-      !!name &&
-      !!phone;
+      !!name;
   }
 }

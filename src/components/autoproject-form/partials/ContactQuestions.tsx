@@ -30,19 +30,6 @@ export class ContactQuestions extends React.PureComponent<Props> {
         </div>
         <div className="input-wrapper">
           <TextField
-            label="Número de teléfono"
-            variant="filled"
-            margin="normal"
-            type="tel"
-            inputMode="tel"
-            fullWidth={true}
-            onChange={this.handleOnPhoneNumberInputChange}
-            InputProps={{ className: 'input' }}
-            error={this.props.phoneError}
-          />
-        </div>
-        <div className="input-wrapper">
-          <TextField
             label="Correo Electrónico"
             variant="filled"
             inputMode="email"
@@ -52,6 +39,19 @@ export class ContactQuestions extends React.PureComponent<Props> {
             onChange={this.handleOnEmailInputChange}
             InputProps={{ className: 'input', }}
             error={this.props.emailError}
+          />
+        </div>
+        <div className="input-wrapper">
+          <TextField
+            label="Número de teléfono (Opcional)"
+            variant="filled"
+            margin="normal"
+            type="tel"
+            inputMode="tel"
+            fullWidth={true}
+            onChange={this.handleOnPhoneNumberInputChange}
+            InputProps={{ className: 'input' }}
+            error={this.props.phoneError}
           />
         </div>
       </Step>
