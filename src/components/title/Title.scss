@@ -1,3 +1,5 @@
+@import "src/variables";
+
 .title {
   width: 100%;
   text-align: center;
@@ -6,7 +8,7 @@
 
   font-size: 4.5rem;
   font-weight: 300;
-  color: white;
+  color: $textcolor;
 
   @media (max-width: 700px) {
     font-size: 3rem;

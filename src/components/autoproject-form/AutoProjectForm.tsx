@@ -268,5 +268,3 @@ export class AutoProjectForm extends React.Component<Props, State> {
       !!phone;
   }
 }
-
-

@@ -6,8 +6,10 @@
   justify-content: center;
 
   .option {
-    color: white;
-    border: 1px solid white;
+    //color: white;
+    //border: 1px solid white;
+    color: rgb(40, 40, 40);
+    border: 1px solid rgb(40, 40, 40);
     border-radius: 5px;
     transition: all .5s;
     padding: 6px 10px;
@@ -17,8 +19,8 @@
   }
 
   .option-selected {
-    color: black;
-    border: 1px solid #424242;
-    background-color: white;
+    color: white;
+    border: 1px solid white;
+    background-color: rgb(40, 40, 40);
   }
 }

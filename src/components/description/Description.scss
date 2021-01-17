@@ -1,8 +1,9 @@
+@import "src/variables";
 
 .description {
   margin-top: 35px;
 
-  color: rgba(255, 255, 255, 0.7);
+  color: $textcolor;
 
   .description-text {
     text-align: center;
