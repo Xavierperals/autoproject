@@ -7,10 +7,12 @@ function configureTheme(): Theme {
   return createMuiTheme({
     palette: {
       primary: {
-        main: '#69f0ae',
+        // main: '#69f0ae',
+        main: '#00bfa5',
       },
       secondary: {
-        main: '#69f0ae',
+        // main: '#69f0ae',
+        main: '#00bfa5',
       },
     },
   });

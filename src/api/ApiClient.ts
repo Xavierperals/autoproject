@@ -24,8 +24,14 @@ export class ApiClient {
   public async submitForm(request: SubmitRequest): Promise<SubmitResponse> {
 
     const formData = new FormData();
-    // @ts-ignore
-    Object.keys(request).forEach(requestKey => formData.append(requestKey, request[requestKey]));
+
+    Object.keys(request).forEach(requestKey => {
+      // @ts-ignore
+      if (!!request[requestKey]) {
+        // @ts-ignore
+        formData.append(requestKey, request[requestKey])
+      }
+    });
 
     const response: AxiosResponse<SubmitResponse> = await axios.post(
       API_URL + '/api/v1/autoproject-form-contact',

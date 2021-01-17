@@ -1,3 +1,5 @@
+@import 'src/variables';
+
 .inputs {
   padding-left: 15px;
 
@@ -16,19 +18,22 @@
   }
 
   .input {
-    color: white;
+    color: $textcolor;
   }
 }
 
 .submit-button-wrapper {
   padding: 20px;
   text-align: center;
+
   p {
-    color:white;
-    a{
-      color:white;
+    color: $textcolor;
+
+    a {
+      color: $textcolor;
     }
   }
+
   button {
     font-weight: 600;
   }

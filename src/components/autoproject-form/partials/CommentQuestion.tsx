@@ -27,7 +27,7 @@ export class CommentQuestion extends React.PureComponent<Props, State> {
       <Step title="Añádenos un comentario">
         <div className="input-wrapper">
           <TextField
-            label="Comentario"
+            label="Comentario (Opcional)"
             variant="filled"
             margin="normal"
             fullWidth={true}
