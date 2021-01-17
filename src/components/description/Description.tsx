@@ -11,9 +11,9 @@ export const Description = (props: Props) => (
       <br /><br />
      Quieres <b>ahorrarte un 30%</b>?
       <br /><br />
-     Podras escoger <b>acabados y distribuciones…</b>
+     Podrás escoger <b>acabados y distribuciones…</b>
       <br /><br />
-     Dinos <b>donde te gustaría vivir en 6  sencillos pasos…</b>
+     Dinos <b>dónde te gustaría vivir en 6  sencillos pasos…</b>
      <br />
     </p>
     {/*<p className="slogan"></p>*/}
