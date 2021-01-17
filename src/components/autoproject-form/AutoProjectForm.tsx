@@ -119,7 +119,7 @@ export class AutoProjectForm extends React.Component<Props, State> {
 
   private renderSizeQuestions(): React.ReactNode {
     return (
-      <Step title="Superficie. ¿Cómo de grande lo necesitas?">
+      <Step title="Superfície. ¿Cómo de grande lo necesitas?">
         <SizeOptions onSelectOption={this.handleOnSizeOptionsSelectChange}/>
       </Step>
     );
